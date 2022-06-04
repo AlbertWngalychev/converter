@@ -1,7 +1,7 @@
 ﻿namespace converter.Converter.Core
 {
-    public interface IConverterFileManagerBaseObserver<TId>
+    public interface IConverterFileManagerBaseObserver<TItem>
     {
-        void Subscribe(ConverterFileManagerBase<TId> manager);
+        void Subscribe(ConverterFileManagerBase<TItem> manager);
     }
 }

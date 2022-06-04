@@ -5,6 +5,7 @@ using converter.Data;
 using converter.Models;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -43,7 +44,13 @@ void AddServices(WebApplicationBuilder builder)
         return new ConverterManager(Path.Combine(builder.Environment.WebRootPath, "wwwroot/Files"));
     });
 
-    //services.AddSingleton<IConverterFileManagerBaseObserver<converter.Models.Convert>, AddStatusObserver>();
+    services.AddSingleton<IConverterFileManagerBaseObserver<converter.Models.Convert>>( x=>
+    {
+        var manager = x.GetService<ConverterFileManagerBase<converter.Models.Convert>>();
+        var statusRepo = x.GetService<IStatusRepository>();
+
+        return new AddStatusObserver(statusRepo, manager);
+    });
 
 }
 void ConfigureServices(WebApplication app)

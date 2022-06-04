@@ -7,6 +7,11 @@ namespace converter
     public class AddStatusObserver : IConverterFileManagerBaseObserver<Convert>
     {
         private readonly IStatusRepository _repository;
+        public AddStatusObserver(IStatusRepository repository)
+        {
+            _repository = repository;
+
+        }
         public AddStatusObserver(IStatusRepository repository, ConverterFileManagerBase<Convert> manager)
         {
             _repository = repository;
