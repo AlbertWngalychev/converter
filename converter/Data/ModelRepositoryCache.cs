@@ -2,7 +2,7 @@
 
 namespace converter.Data
 {
-    public class ModelRepositoryCache
+    public class ModelRepositoryCache : IModelRepositoryCache
     {
         private readonly IMemoryCache _cache;
         public ModelRepositoryCache(IMemoryCache cache)
@@ -34,14 +34,6 @@ namespace converter.Data
         public Task<Model> SetFromKeyAsync<Model>(object key, Model model, TimeSpan time) where Model : class
         {
             return Task.Run(() => _cache.Set(key, model, time));
-        }
-    }
-
-    public static class ModelRepositoryCacheExtensions
-    {
-        public static IServiceCollection AddModelRepositoryCache<ModelCache>(this IServiceCollection services) where ModelCache : ModelRepositoryCache
-        {
-            return services.AddMemoryCache().AddSingleton<ModelCache>();
         }
     }
 }

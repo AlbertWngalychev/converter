@@ -85,7 +85,15 @@ namespace converter.Converter
 
             await EventInvokeAsync(first, result);
 
-            bool json2xml = BitConverter.ToInt64(first.Json2xml) > 0;
+            string format = first.ContentType.Split('/').Last();
+
+            if (format != "json" || format != "xml")
+            {
+                throw new Exception($"I don't know this type. File: {first.Id} {first.FileName}");
+            }
+
+            bool json2xml = format=="xml";
+
             string fileIn = $"{Directory}\\{first.Id}.{(json2xml ? "json" : "xml")}";
             string fileOut = $"{Directory}\\{first.Id}.{(!json2xml ? "json" : "xml")}";
 
@@ -98,7 +106,7 @@ namespace converter.Converter
                     inputString = await reader.ReadToEndAsync();
                 }
 
-                if (String.IsNullOrEmpty(inputString))
+                if (string.IsNullOrEmpty(inputString))
                 {
                     throw new ArgumentNullException(nameof(inputString));
                 }
@@ -112,7 +120,6 @@ namespace converter.Converter
 
             try
             {
-                //что-то не то
                 if (json2xml)
                 {
                     XmlDocument? outDoc = await ConvertAsync(inputString, Json2Xml.NewtonsoftJsonAsync);
