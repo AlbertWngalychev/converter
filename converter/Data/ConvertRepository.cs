@@ -6,10 +6,10 @@ namespace converter.Data
     public class ConvertRepository : IConvertRepository, IDisposable
     {
         private readonly convertContext _context;
-        private readonly ModelRepositoryCache? _cache;
+        private readonly IModelRepositoryCache? _cache;
         public bool UsedCache => _cache != null;
 
-        public ConvertRepository(convertContext context, ModelRepositoryCache? cache = null)
+        public ConvertRepository(convertContext context, IModelRepositoryCache? cache = null)
         {
             _context = context;
             _cache = cache;
@@ -44,7 +44,7 @@ namespace converter.Data
             await SaveChangesAsync();
 
             var entity = temp.Entity;
-            
+
             return UsedCache ? await _cache.SetAsync(entity.Id, entity) : entity;
         }
         public async Task<IEnumerable<Models.Convert>> GetAllAsync()
