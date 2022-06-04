@@ -7,9 +7,9 @@ namespace converter.Data
     public class StatusRepository : IStatusRepository, IDisposable
     {
         private readonly convertContext _convertContext;
-        private readonly IModelRepositoryCache? _cache;
+        private readonly ModelRepositoryCache? _cache;
         public bool UsedCache => _cache != null;
-        public StatusRepository(convertContext convertContext, IModelRepositoryCache? cache = null)
+        public StatusRepository(convertContext convertContext, ModelRepositoryCache? cache = null)
         {
             _convertContext = convertContext;
             _cache = cache;
@@ -26,7 +26,7 @@ namespace converter.Data
         }
         public async Task<Status> AddStatusAsync(long convertId, long resultId, DateTime dateTime)
         {
-
+            
             Result? result = await GetModelAsync<Result>(resultId) ?? throw new ArgumentNullException(nameof(resultId));
             Models.Convert? convert = await GetModelAsync<Models.Convert>(convertId) ?? throw new ArgumentNullException(nameof(convertId));
 
@@ -45,7 +45,7 @@ namespace converter.Data
             }
 
             return temp.Entity;
-        }
+        }       
         public async Task<Status> AddStatusAsync(long convertId, string resultTitle, DateTime dateTime)
         {
 

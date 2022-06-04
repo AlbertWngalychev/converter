@@ -6,10 +6,10 @@ namespace converter.Data
     public class ResultRepository : IResultRepository, IDisposable
     {
         private readonly convertContext _convertContext;
-        private readonly IModelRepositoryCache? _cache;
+        private readonly ModelRepositoryCache? _cache;
         public bool UsedCache => _cache != null;
 
-        public ResultRepository(convertContext convertContext, IModelRepositoryCache? modelRepositoryCache = null)
+        public ResultRepository(convertContext convertContext, ModelRepositoryCache? modelRepositoryCache = null)
         {
             _convertContext = convertContext;
             _cache = modelRepositoryCache;

@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="wwwroot\Files\TextFile.txt" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.0-preview.4.22229.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.0-preview.4.22229.2">
       <PrivateAssets>all</PrivateAssets>
@@ -22,12 +18,9 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
-    <Folder Include="Models\" />
-    <Folder Include="wwwroot\Files\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="wwwroot\Files\TextFile.txt" />
+    <Folder Include="Views\" />
+    <Folder Include="Services\" />
+    <Folder Include="wwwroot\files\" />
   </ItemGroup>
 
 </Project>

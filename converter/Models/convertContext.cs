@@ -20,14 +20,6 @@ namespace converter.Models
         public virtual DbSet<Result> Results { get; set; } = null!;
         public virtual DbSet<Status> Statuses { get; set; } = null!;
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlite("Filename=convert.db");
-            }
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Convert>(entity =>
@@ -39,9 +31,13 @@ namespace converter.Models
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.ContentType).HasColumnName("content_type");
+                entity.Property(e => e.Filename)
+                    .HasColumnType("VARCHAR (255)")
+                    .HasColumnName("filename");
 
-                entity.Property(e => e.FileName).HasColumnName("file_name");
+                entity.Property(e => e.Json2xml)
+                    .HasColumnType("BOOLEAN")
+                    .HasColumnName("json2xml");
             });
 
             modelBuilder.Entity<Result>(entity =>

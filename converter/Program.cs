@@ -1,10 +1,10 @@
-using converter;
-using converter.Converter;
-using converter.Converter.Core;
 using converter.Data;
 using converter.Models;
+using converter.Converter;
+using converter.Converter.Core;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using converter;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,9 +14,9 @@ var app = builder.Build();
 
 ConfigureServices(app);
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+//app.MapControllerRoute(
+//    name: "default",
+//    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
 
@@ -32,20 +32,18 @@ void AddServices(WebApplicationBuilder builder)
     });
 
     services.AddScoped<IConvertRepository, ConvertRepository>();
-    services.AddScoped<IResultRepository, ResultRepository>();
-    services.AddScoped<IStatusRepository, StatusRepository>();
+    services.AddScoped<IConvertRepository, ConvertRepository>();
+    services.AddScoped<IConvertRepository, ConvertRepository>();
 
-    services.AddMemoryCache();
-    services.AddSingleton<IModelRepositoryCache, ModelRepositoryCache>();
-    
-    services.AddSingleton<ConverterFileManagerBase<converter.Models.Convert>>(x =>
-    {
-        return new ConverterManager(Path.Combine(builder.Environment.WebRootPath, "wwwroot/Files"));
-    });
+    services.AddModelRepositoryCache<ModelRepositoryCache>();
 
-    //services.AddSingleton<IConverterFileManagerBaseObserver<converter.Models.Convert>, AddStatusObserver>();
+    services.AddConverterManager<converter.Models.Convert, ConverterManager>();
+
+    services.AddSingleton<IConverterFileManagerBaseObserver<converter.Models.Convert>, AddStatusObserver>();
+
 
 }
+
 void ConfigureServices(WebApplication app)
 {
     // Configure the HTTP request pipeline.
