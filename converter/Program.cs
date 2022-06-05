@@ -2,11 +2,12 @@ using converter;
 using converter.Converter;
 using converter.Converter.Core;
 using converter.Data;
+using converter.Middlewares;
 using converter.Models;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-
+//Add history page GET /history/page/1
 var builder = WebApplication.CreateBuilder(args);
 
 AddServices(builder);
@@ -55,6 +56,8 @@ void AddServices(WebApplicationBuilder builder)
 }
 void ConfigureServices(WebApplication app)
 {
+    app.UseMiddleware<ErrorHandlingMiddleware>();
+
     // Configure the HTTP request pipeline.
     if (!app.Environment.IsDevelopment())
     {
